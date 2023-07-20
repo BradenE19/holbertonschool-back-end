@@ -4,31 +4,35 @@ information about his/her TODO list progress"""
 import requests
 import sys
 
+def get_employee_todo_progress(employee_id):
+    base_url = "https://jsonplaceholder.typicode.com"
+    employee_todo_url = f"{base_url}/todos?userId={employee_id}"
+    response = requests.get(employee_todo_url)
+
+    if response.status_code == 200:
+        todos = response.json()
+        completed_todos = [todo for todo in todos if todo["completed"]]
+        total_todos = len(todos)
+        completed_todos_count = len(completed_todos)
+
+        progress_percentage = (completed_todos_count / total_todos) * 100
+
+        return {
+            "total_todos": total_todos,
+            "completed_todos_count": completed_todos_count,
+            "progress_percentage": progress_percentage
+        }
+    else:
+        print(f"Failed to fetch TODO list for employee {employee_id}. Error code: {response.status_code}")
+        return None
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"UsageError: python3 {__file__} employee_id(int)")
-        sys.exit(1)
+    employee_id = 1  # Replace this with the employee ID you want to query
+    employee_progress = get_employee_todo_progress(employee_id)
 
-    API_URL = "https://jsonplaceholder.typicode.com"
-    EMPLOYEE_ID = sys.argv[1]
+    if employee_progress:
+        print(f"Employee {employee_id} TODO List Progress:")
+        print(f"Total Todos: {employee_progress['total_todos']}")
+        print(f"Completed Todos: {employee_progress['completed_todos_count']}")
+        print(f"Progress Percentage: {employee_progress['progress_percentage']}%")
 
-    response = requests.get(
-        f"{API_URL}/users/{EMPLOYEE_ID}/todos",
-        params={"_expand": "user"}
-    )
-    data = response.json()
-
-    if not len(data):
-        print("RequestError:", 404)
-        sys.exit(1)
-
-    employee_name = data[0]["user"]["name"]
-    total_tasks = len(data)
-    done_tasks = [task for task in data if task["completed"]]
-    total_done_tasks = len(done_tasks)
-
-    print(f"Employee {employee_name} is done with tasks"
-          f"({total_done_tasks}/{total_tasks}):")
-    for task in done_tasks:
-        print(f"\t {task['title']}")
