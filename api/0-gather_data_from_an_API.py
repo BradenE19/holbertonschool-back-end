@@ -6,7 +6,7 @@ import sys
 
 
 if __name__ == "__main__":
-     if len(sys.argv) != 2:
+    if len(sys.argv) != 2:
         print(f"UsageError: python3 {__file__} employee_id(int)")
         sys.exit(1)
 
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     EMPLOYEE_NAME = data[0]["user"]["name"]
     TOTAL_NUMBER_OF_TASKS = len(data)
     NUMBER_OF_DONE_TASKS = [task for task in data if task["completed"]]
-    total_done_tasks = len(NUMBER_OF_DONE_TASKS)
+
 
     print(f"Employee {EMPLOYEE_NAME} is done with tasks"
           f"({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
