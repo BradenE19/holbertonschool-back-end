@@ -26,8 +26,9 @@ if __name__ == "__main__":
     EMPLOYEE_NAME = data[0]["user"]["name"]
     TOTAL_NUMBER_OF_TASKS = len(data)
     NUMBER_OF_DONE_TASKS = [task for task in data if task["completed"]]
+    TASK_TITLE = len(NUMBER_OF_DONE_TASKS)
 
     print(f"Employee {EMPLOYEE_NAME} is done with tasks"
-          f"({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
-    for task in NUMBER_OF_DONE_TASKS:
-        print(f"\t {task['title']}")
+          f"({TOTAL_NUMBER_OF_TASKS}/{NUMBER_OF_DONE_TASKS}):")
+    for TASK_TITLE in NUMBER_OF_DONE_TASKS:
+        print(f"{TASK_TITLE['title']}")
