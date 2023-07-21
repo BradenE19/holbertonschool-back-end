@@ -18,6 +18,10 @@ if __name__ == "__main__":
 
     EMPLOYEE_NAME = data[0]["user"]["username"]
     fileName = f"{EMPLOYEE_ID}.csv"
+    total_tasks = 0
+    num_lines = 0
+
+
 
     with open(fileName, "w", newline="") as file:
         writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
