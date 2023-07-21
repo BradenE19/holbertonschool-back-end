@@ -22,7 +22,7 @@ if __name__ == "__main__":
     fileName = f"{EMPLOYEE_ID}.csv"
     total_tasks = 0
     num_lines = 0
-    
+
     with open(fileName, "w", newline="") as file:
         writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
         for task in data:
