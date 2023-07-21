@@ -4,31 +4,27 @@ information about his/her TODO list progress"""
 import requests
 import sys
 
-
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"UsageError: python3 {__file__} employee_id(int)")
+    if len(sys.argv) < 2:
+        print(f"missing employee id as argument")
         sys.exit(1)
 
-    API_URL = "https://jsonplaceholder.typicode.com"
+    URL = "https://jsonplaceholder.typicode.com"
     EMPLOYEE_ID = sys.argv[1]
 
-    response = requests.get(
-        f"{API_URL}/users/{EMPLOYEE_ID}/todos",
-        params={"_expand": "user"}
-    )
-    data = response.json()
-
-    if not len(data):
-        print("RequestError:", 404)
-        sys.exit(1)
+    EMPLOYEE_TODOS = requests.get(f"{URL}/users/{EMPLOYEE_ID}/todos",
+                                  params={"_expand": "user"})
+    data = EMPLOYEE_TODOS.json()
 
     EMPLOYEE_NAME = data[0]["user"]["name"]
     TOTAL_NUMBER_OF_TASKS = len(data)
-    NUMBER_OF_DONE_TASKS = [task for task in data if task["completed"]]
-    TASK_TITLE = len(NUMBER_OF_DONE_TASKS)
-
+    NUMBER_OF_DONE_TASKS = 0
+    TASK_TITLE = []
+    for task in data:
+        if task["completed"]:
+            NUMBER_OF_DONE_TASKS += 1
+            TASK_TITLE.append(task["title"])
     print(f"Employee {EMPLOYEE_NAME} is done with tasks"
-          f"({TOTAL_NUMBER_OF_TASKS}/{NUMBER_OF_DONE_TASKS}):")
-    for TASK_TITLE in NUMBER_OF_DONE_TASKS:
-        print(f"{TASK_TITLE['title']}")
+          f"({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
+    for title in TASK_TITLE:
+        print("\t ", title)
