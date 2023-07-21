@@ -10,6 +10,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     URL = "https://jsonplaceholder.typicode.com"
+    users_url = "https://jsonplaceholder.typicode.com/users?id="
+    todos_url = "https://jsonplaceholder.typicode.com/todos"
     EMPLOYEE_ID = sys.argv[1]
 
     EMPLOYEE_TODOS = requests.get(f"{URL}/users/{EMPLOYEE_ID}/todos",
@@ -20,7 +22,6 @@ if __name__ == "__main__":
     fileName = f"{EMPLOYEE_ID}.csv"
     total_tasks = 0
     num_lines = 0
-
 
 
     with open(fileName, "w", newline="") as file:
