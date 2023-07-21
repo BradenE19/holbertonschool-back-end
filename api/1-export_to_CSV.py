@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     EMPLOYEE_NAME = data[0]["user"]["username"]
     fileName = f"{EMPLOYEE_ID}.csv"
-    
+
     with open(fileName, "w", newline="") as file:
         writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
         for task in data:
